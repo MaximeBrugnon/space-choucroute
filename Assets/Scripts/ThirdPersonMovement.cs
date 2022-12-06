@@ -61,34 +61,37 @@ public class ThirdPersonMovement : MonoBehaviour
 
         Move(direction);
 
-
-
-        
-        
-        animator.SetBool("isRunning", vertical !=0);
-
-        animator.SetBool("isJumping", !controller.isGrounded);
+        animator.SetBool("isJumping", !isGrounded);
         
     }
 
     void Move(Vector3 _direction)
     {
-        if (_direction.magnitude >= 0.1f)
-        {
+         if (_direction.magnitude >= 0.1f) {
+
+            animator.SetBool("isRunning", true);
+
+       
             float targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
-            
+
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
-        }
+            
+
+         } else {
+            animator.SetBool("isRunning", false);
+         }
 
         if (isJumping)
         {
             // Add jump force
             velocity.y = Mathf.Sqrt(-jumpHeight * gravity);
             isJumping = false;
+
         }
 
         // Accelerating to the ground
