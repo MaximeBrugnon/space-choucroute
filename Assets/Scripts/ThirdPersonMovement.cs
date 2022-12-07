@@ -1,9 +1,3 @@
-using System.Collections;
-
-
-
-using System.Security.Cryptography;
-using System.Threading;
 using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
@@ -75,36 +69,30 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Update()
     {
-        
+        // Ground check
         isGrounded = Physics.CheckSphere(groundCheck.position, GROUND_DISTANCE, groundMask);
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-
+        // Jump check
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             isJumping = true;
         }
-       
         
-        //walk
+        // Let's move
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-
-
         Move(direction);
-
+        Animate(direction);
         
     }
 
     void Move(Vector3 _direction)
     {
-        animator.SetFloat("groundSpeed", _direction.magnitude);
-        animator.SetBool("isJumping", !isGrounded);
 
         if (isGrounded) // Full controll on ground
         {
@@ -146,7 +134,12 @@ public class ThirdPersonMovement : MonoBehaviour
         velocity.y += GRAVITY * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
+    }
 
+    void Animate(Vector3 _direction)
+    {
+        animator.SetFloat("groundSpeed", _direction.magnitude);
+        animator.SetBool("isJumping", !isGrounded);
     }
 }
 
