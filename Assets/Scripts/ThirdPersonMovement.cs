@@ -1,14 +1,14 @@
 using System.Collections;
 
 
-using System.Collections.Generic;
-using System.Collections.Specialized;
+
 using System.Security.Cryptography;
 using System.Threading;
 using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
+
     public CharacterController controller;
     public Animator animator;
 
@@ -16,8 +16,12 @@ public class ThirdPersonMovement : MonoBehaviour
     
     public float speed;
     private float gravity = -9.81f;
-    public float jumpHeight = 20f;
+    public float jumpHeight;
+
+
     public Vector3 velocity;
+
+
     public bool isGrounded;
     public bool isJumping;
     public bool isRunning;
@@ -42,11 +46,7 @@ public class ThirdPersonMovement : MonoBehaviour
         
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-
+        
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             isJumping = true;
@@ -59,17 +59,18 @@ public class ThirdPersonMovement : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
+
         Move(direction);
 
-        animator.SetBool("isJumping", !isGrounded);
         
     }
 
     void Move(Vector3 _direction)
     {
-         if (_direction.magnitude >= 0.1f) {
+        animator.SetFloat("groundSpeed", _direction.magnitude);
+        animator.SetBool("isJumping", !isGrounded);
 
-            animator.SetBool("isRunning", true);
+        if (_direction.magnitude >= 0.1f) {
 
        
             float targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -78,13 +79,10 @@ public class ThirdPersonMovement : MonoBehaviour
 
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            
+
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
             
-
-         } else {
-            animator.SetBool("isRunning", false);
-         }
+        }
 
         if (isJumping)
         {
