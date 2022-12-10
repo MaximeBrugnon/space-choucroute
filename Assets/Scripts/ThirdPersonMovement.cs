@@ -35,7 +35,7 @@ public class ThirdPersonMovement : MonoBehaviour
      */
     private const float SPEED = 15.0f;
     private const float GRAVITY = -9.81f;
-    private const float JUMP_POWER = 4.0f;
+    private const float JUMP_POWER = 3.0f;
 
     /**
      * Choucroute current vectored velocity
@@ -74,7 +74,7 @@ public class ThirdPersonMovement : MonoBehaviour
         // Let's move
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        Vector3 direction = new(horizontal, 0f, vertical);
 
 
         if (isGrounded) // Full controll on ground
@@ -101,11 +101,11 @@ public class ThirdPersonMovement : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
             // Runing movement
-            lastMoveFromGround = moveDir.normalized * SPEED *Time.deltaTime;
+            lastMoveFromGround = moveDir * _direction.magnitude * SPEED * Time.deltaTime;
 
         } else {
             // No mouvement.
-            lastMoveFromGround = new Vector3(0f, 0f, 0f).normalized * SPEED * Time.deltaTime;
+            lastMoveFromGround = new Vector3(0f, 0f, 0f);
         }
 
         controller.Move(lastMoveFromGround);
