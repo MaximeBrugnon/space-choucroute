@@ -51,7 +51,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.25000036
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -163,7 +163,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.5312501
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -205,12 +205,12 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
+  - m_ConditionMode: 3
+    m_ConditionEvent: groundSpeed
+    m_EventTreshold: 0.8
   - m_ConditionMode: 2
     m_ConditionEvent: isJumping
     m_EventTreshold: 0
-  - m_ConditionMode: 3
-    m_ConditionEvent: groundSpeed
-    m_EventTreshold: 0.5
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4343288034685426066}
   m_Solo: 0
@@ -220,7 +220,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.50000024
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -361,7 +361,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.055650115
   m_TransitionOffset: 0
   m_ExitTime: 0.37562737
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -374,9 +374,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: groundSpeed
-    m_EventTreshold: 0.5
   - m_ConditionMode: 1
     m_ConditionEvent: isJumping
     m_EventTreshold: 0
@@ -389,7 +386,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.029202193
   m_TransitionOffset: 0
   m_ExitTime: 0.5312501
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -404,7 +401,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: groundSpeed
-    m_EventTreshold: 0.5
+    m_EventTreshold: 0.8
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4343288034685426066}
   m_Solo: 0
@@ -467,7 +464,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.50000024
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -510,7 +507,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: groundSpeed
-    m_EventTreshold: 1
+    m_EventTreshold: 0.8
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 966121985144821241}
   m_Solo: 0
@@ -520,7 +517,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.5312501
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1

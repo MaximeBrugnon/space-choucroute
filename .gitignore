@@ -9,7 +9,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/[Uu]serSettings/
+/[Uu]serSettings/Layouts/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -61,3 +61,6 @@ crashlytics-build.properties
 
 # MacOs Files
 .DS_Store
+
+# Visual Studio prefs
+.vsconfig
