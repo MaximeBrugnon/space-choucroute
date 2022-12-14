@@ -13,7 +13,6 @@ public class State
     public InputAction moveAction;
     public InputAction lookAction;
     public InputAction jumpAction;
-    public InputAction crouchAction;
     public InputAction sprintAction;
 
     public State(Character _character, StateMachine _stateMachine)
