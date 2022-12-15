@@ -38,17 +38,19 @@ public class StandingState: State
     {
         base.HandleInput();
 
-        if (jumpAction.triggered)
+        if (jumpAction.triggered && !character.isInWater)
         {
             jump = true;
 		}
-		if (sprintAction.triggered)
+		if (sprintAction.triggered && !character.isInWater)
 		{
             sprint = true;
 		}
 
         input = moveAction.ReadValue<Vector2>();
-        velocity = new Vector3(input.x, 0, input.y);
+
+        float speedLimiter = character.isInWater ? 0.5f : 1.0f; // slower in water
+        velocity = new Vector3(input.x, 0, input.y) * speedLimiter;
 
         velocity = velocity.x * character.cameraTransform.right.normalized + velocity.z * character.cameraTransform.forward.normalized;
         velocity.y = 0f;

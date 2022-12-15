@@ -42,6 +42,7 @@ public class Character : MonoBehaviour
     public Animator animator;
     [HideInInspector]
     public Vector3 playerVelocity;
+    public bool isInWater = false;
  
  
     // Start is called before the first frame update

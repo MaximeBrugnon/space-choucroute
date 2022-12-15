@@ -39,7 +39,7 @@ public class SprintState : State
 
         velocity = velocity.x * character.cameraTransform.right.normalized + velocity.z * character.cameraTransform.forward.normalized;
         velocity.y = 0f;
-        if (sprintAction.triggered || input.sqrMagnitude == 0f)
+        if (sprintAction.triggered || input.sqrMagnitude == 0f || character.isInWater)
         {
             sprint = false;
         }

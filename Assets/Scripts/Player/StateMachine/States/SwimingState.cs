@@ -1,14 +1,13 @@
 using UnityEngine;
 public class SwimingState : State
 {
-    float gravityValue;
-    Vector3 currentVelocity;
+    private Vector3 currentVelocity;
 
-    bool grounded;
-    bool sprint;
-    float playerSpeed;
-    bool sprintJump;
-    Vector3 cVelocity;
+    private Vector3 cVelocity;
+
+    private float swimSpeed = 0.5f;
+    private float waterEntryTime = 0f;
+
     public SwimingState(Character _character, StateMachine _stateMachine) : base(_character, _stateMachine)
     {
         character = _character;
@@ -19,16 +18,12 @@ public class SwimingState : State
     {
         base.Enter();
 
-        sprint = false;
-        sprintJump = false;
         input = Vector2.zero;
         velocity = Vector3.zero;
         currentVelocity = Vector3.zero;
         gravityVelocity.y = 0;
 
-        playerSpeed = character.sprintSpeed;
-        grounded = character.controller.isGrounded;
-        gravityValue = character.gravityValue;        
+        character.animator.SetTrigger("swim");
     }
 
     public override void HandleInput()
@@ -39,52 +34,38 @@ public class SwimingState : State
 
         velocity = velocity.x * character.cameraTransform.right.normalized + velocity.z * character.cameraTransform.forward.normalized;
         velocity.y = 0f;
-        if (sprintAction.triggered || input.sqrMagnitude == 0f)
-        {
-            sprint = false;
-        }
-        else
-        {
-            sprint = true;
-        }
-		if (jumpAction.triggered)
-		{
-            sprintJump = true;
-
-        }
 
     }
 
     public override void LogicUpdate()
     {
-        if (sprint)
+	    waterEntryTime += Time.deltaTime;
+        if (waterEntryTime >= 15f)
         {
-            character.animator.SetFloat("speed", input.magnitude + 0.5f, character.speedDampTime, Time.deltaTime);
+            character.animator.SetTrigger("drown");
+            //stateMachine.ChangeState(character.dies);
 		}
-		else
-		{
-            stateMachine.ChangeState(character.standing);
-        }
-		if (sprintJump)
-		{
-            stateMachine.ChangeState(character.sprintjumping);
-        }
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        grounded = character.controller.isGrounded;
         gravityVelocity.y = 0f;
 
         currentVelocity = Vector3.SmoothDamp(currentVelocity, velocity, ref cVelocity, character.velocityDampTime);
 
-        character.controller.Move(currentVelocity * Time.deltaTime * playerSpeed + gravityVelocity * Time.deltaTime);
+        character.controller.Move(currentVelocity * Time.deltaTime * swimSpeed + gravityVelocity * Time.deltaTime);
 
 
         if (velocity.sqrMagnitude > 0)
         {
             character.transform.rotation = Quaternion.Slerp(character.transform.rotation, Quaternion.LookRotation(velocity), character.rotationDampTime);
         }
+    }
+
+     public override void Exit()
+    {
+        base.Exit();
+        character.animator.SetTrigger("move");
     }
 }
