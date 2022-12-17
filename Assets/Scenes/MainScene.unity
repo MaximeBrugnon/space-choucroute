@@ -15,12 +15,12 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.36201787, g: 0.44194585, b: 0.60555637, a: 1}
+  m_FogColor: {r: 0.34110725, g: 0.41561562, b: 0.57567006, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.003
   m_LinearFogStart: 5
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.4545626, g: 0.47935522, b: 0.66034126, a: 1}
+  m_AmbientSkyColor: {r: 0.42753273, g: 0.45355397, b: 0.64350903, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.823
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.11147915, g: 0.13485922, b: 0.18715328, a: 0.823}
+  m_IndirectSpecularColor: {r: 0.11056684, g: 0.13321106, b: 0.18279491, a: 0.823}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -264,13 +264,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 4.69
+  m_Height: 2.61
   m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 2.55, z: 0}
+  m_Center: {x: 0, y: 1.54, z: 0}
 --- !u!114 &207457081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,18 +330,6 @@ MonoBehaviour:
   animator: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
   isInWater: 0
---- !u!114 &207457083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 207457075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f18fab23ae98d41eda73385c6b0265a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &245475285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -627,10 +615,9 @@ GameObject:
   m_Component:
   - component: {fileID: 528728242}
   - component: {fileID: 528728244}
-  - component: {fileID: 528728243}
   m_Layer: 0
   m_Name: ShoulderLine
-  m_TagString: Untagged
+  m_TagString: WaterLine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -650,18 +637,6 @@ Transform:
   m_Father: {fileID: 1054663307}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &528728243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 528728241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45b9b1ca7b2724ba4b4e2c546e5d93d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &528728244
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -673,7 +648,7 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.04
-  m_Height: 0.5
+  m_Height: 1
   m_Direction: 0
   m_Center: {x: 0, y: 0.13, z: 0.09}
 --- !u!1 &537806216
@@ -1090,7 +1065,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.7700436, g: 0.6249387, b: 0.5296575, a: 1}
+  m_Color: {r: 0.75829077, g: 0.6057697, b: 0.5056188, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1148,7 +1123,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.017003253, y: 0.9770531, z: -0.19434795, w: 0.08548113}
+  m_LocalRotation: {x: 0.0144223645, y: 0.9824607, z: -0.16484827, w: 0.085954234}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1710,7 +1685,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.14220113, y: -0.000000030704015, z: 0.0000000044109707, w: 0.9898378}
+  m_LocalRotation: {x: 0.14220113, y: 0.000000030704015, z: -0.0000000044109707, w: 0.9898378}
   m_LocalPosition: {x: -150, y: 36.7, z: 435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2208,7 +2183,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306112683}
-  m_LocalRotation: {x: 0.12422062, y: 0.000000017073113, z: -0.0000000021373876, w: 0.9922547}
+  m_LocalRotation: {x: 0.12422062, y: -0.00000001707311, z: 0.0000000021373872, w: 0.9922547}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2343,7 +2318,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508675020}
-  m_LocalRotation: {x: 0.14220111, y: -0.000000008515764, z: 0.0000000012233834, w: 0.9898378}
+  m_LocalRotation: {x: 0.14220111, y: 0.000000008515764, z: -0.0000000012233834, w: 0.9898378}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2460,7 +2435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionalLight: {fileID: 705507994}
   preset: {fileID: 11400000, guid: 85b819b8cb2b4c64f8e7269453e231c8, type: 2}
-  timeOfTheDay: 7.5
+  timeOfTheDay: 7.27
   lengthOfADayInMinutes: 5
 --- !u!4 &1623504529
 Transform:
