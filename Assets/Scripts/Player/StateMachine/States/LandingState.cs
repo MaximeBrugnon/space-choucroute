@@ -6,10 +6,8 @@ public class LandingState : State
     float landingTime;
     bool isSprinting;
 
-    public LandingState(Character _character, StateMachine _stateMachine) : base(_character, _stateMachine)
+    public LandingState(Character _charactere) : base(_charactere)
     {
-        character = _character;
-        stateMachine = _stateMachine;
     }
 
     public override void Enter()
@@ -43,11 +41,11 @@ public class LandingState : State
 
             if (isSprinting)
             {
-                stateMachine.ChangeState(character.sprinting);
+                character.SetState(new SprintState(character));
             }
             else
             {
-                stateMachine.ChangeState(character.standing);
+                character.SetState(new StandingState(character));
             }
         }
         timePassed += Time.deltaTime;

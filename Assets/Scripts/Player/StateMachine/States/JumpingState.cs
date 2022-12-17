@@ -10,10 +10,8 @@ public class JumpingState:State
 
     Vector3 airVelocity;
 
-    public JumpingState(Character _character, StateMachine _stateMachine) : base(_character, _stateMachine)
+    public JumpingState(Character _character) : base(_character)
 	{
-		character = _character;
-		stateMachine = _stateMachine;
 	}
 
     public override void Enter()
@@ -43,7 +41,7 @@ public class JumpingState:State
 
         if (grounded)
 		{
-            stateMachine.ChangeState(character.landing);
+            character.SetState(new LandingState(character));
         }
     }
 

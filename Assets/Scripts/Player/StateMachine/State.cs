@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class State
+public abstract class State
 {
-    public Character character;
-    public StateMachine stateMachine;
+    protected Character character;
 
     protected Vector3 gravityVelocity;
     protected Vector3 velocity;
@@ -15,10 +14,9 @@ public class State
     public InputAction jumpAction;
     public InputAction sprintAction;
 
-    public State(Character _character, StateMachine _stateMachine)
+    public State(Character _character)
     {
         character = _character;
-        stateMachine = _stateMachine;
 
         moveAction = character.playerInput.actions["Move"];
         lookAction = character.playerInput.actions["Look"];
@@ -29,7 +27,7 @@ public class State
 
     public virtual void Enter()
     {
-        Debug.Log("Enter State: " + this.ToString());
+       // Debug.Log("Enter State: " + this.ToString());
     }
 
     public virtual void HandleInput()

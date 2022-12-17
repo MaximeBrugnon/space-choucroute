@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class Character : MonoBehaviour
+public class Character : StateMachine 
 {
     [Header("Controls")]
     public float playerSpeed = 5.0f;
@@ -19,19 +19,8 @@ public class Character : MonoBehaviour
     [Range(0, 1)]
     public float airControl = 0.5f;
  
-    public StateMachine stateMachine;
-    public StandingState standing;
-    public JumpingState jumping;
-    public LandingState landing;
-    public SprintState sprinting;
-    public SprintJumpState sprintjumping;
-    public SwimingState swiming;
-    public WaterLandingState waterLanding; 
- 
     [HideInInspector]
     public float gravityValue = -9.81f;
-    [HideInInspector]
-    public float normalColliderHeight;
     [HideInInspector]
     public CharacterController controller;
     [HideInInspector]
@@ -42,9 +31,9 @@ public class Character : MonoBehaviour
     public Animator animator;
     [HideInInspector]
     public Vector3 playerVelocity;
+    [HideInInspector]
     public bool isInWater = false;
- 
- 
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -52,32 +41,20 @@ public class Character : MonoBehaviour
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         cameraTransform = Camera.main.transform;
- 
-        stateMachine = new StateMachine();
-        standing = new StandingState(this, stateMachine);
-        jumping = new JumpingState(this, stateMachine);
-        landing = new LandingState(this, stateMachine);
-        sprinting = new SprintState(this, stateMachine);
-        sprintjumping = new SprintJumpState(this, stateMachine);
-        swiming = new SwimingState(this, stateMachine);
-        waterLanding = new WaterLandingState(this, stateMachine);
- 
-        stateMachine.Initialize(standing);
- 
-        normalColliderHeight = controller.height;
         gravityValue *= gravityMultiplier;
+
+        SetState(new StandingState(this));
     }
  
     private void Update()
     {
-        stateMachine.currentState.HandleInput();
- 
-        stateMachine.currentState.LogicUpdate();
+        state.HandleInput();
+        state.LogicUpdate();
     }
  
     private void FixedUpdate()
     {
-        stateMachine.currentState.PhysicsUpdate();
+        state.PhysicsUpdate();
     }
 }
  

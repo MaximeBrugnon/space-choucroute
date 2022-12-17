@@ -12,10 +12,8 @@ public class StandingState: State
 
     Vector3 cVelocity;
 
-    public StandingState(Character _character, StateMachine _stateMachine) : base(_character, _stateMachine)
+    public StandingState(Character _character) : base(_character)
 	{
-		character = _character;
-		stateMachine = _stateMachine;
 	}
 
     public override void Enter()
@@ -65,11 +63,11 @@ public class StandingState: State
 
         if (sprint)
 		{
-            stateMachine.ChangeState(character.sprinting);
+            character.SetState(new SprintState(character));
         }    
         if (jump)
         {
-            stateMachine.ChangeState(character.jumping);
+            character.SetState(new JumpingState(character));
         }
     }
 
@@ -86,7 +84,7 @@ public class StandingState: State
         }
        
         currentVelocity = Vector3.SmoothDamp(currentVelocity, velocity,ref cVelocity, character.velocityDampTime);
-        character.controller.Move(currentVelocity * Time.deltaTime * playerSpeed + gravityVelocity * Time.deltaTime);
+        character.controller.Move(playerSpeed * Time.deltaTime * currentVelocity + gravityVelocity * Time.deltaTime);
   
 		if (velocity.sqrMagnitude>0)
 		{

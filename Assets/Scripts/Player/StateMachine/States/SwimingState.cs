@@ -8,10 +8,8 @@ public class SwimingState : State
     private float swimSpeed = 0.5f;
     private float waterEntryTime = 0f;
 
-    public SwimingState(Character _character, StateMachine _stateMachine) : base(_character, _stateMachine)
+    public SwimingState(Character _character) : base(_character)
     {
-        character = _character;
-        stateMachine = _stateMachine;
     }
 
     public override void Enter()
@@ -43,7 +41,7 @@ public class SwimingState : State
         if (waterEntryTime >= 15f)
         {
             character.animator.SetTrigger("drown");
-            //stateMachine.ChangeState(character.dies);
+            //character.SetState(new DrowingState(character));
 		}
     }
 
@@ -55,9 +53,8 @@ public class SwimingState : State
         currentVelocity = Vector3.SmoothDamp(currentVelocity, velocity, ref cVelocity, character.velocityDampTime);
 
         character.controller.Move(currentVelocity * Time.deltaTime * swimSpeed + gravityVelocity * Time.deltaTime);
-
-
-        if (velocity.sqrMagnitude > 0)
+	
+	    if (velocity.sqrMagnitude > 0)
         {
             character.transform.rotation = Quaternion.Slerp(character.transform.rotation, Quaternion.LookRotation(velocity), character.rotationDampTime);
         }

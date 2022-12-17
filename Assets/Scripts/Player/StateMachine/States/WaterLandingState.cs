@@ -5,10 +5,8 @@ public class WaterLandingState:State
     float timePassed;
     float landingTime;
 
-    public WaterLandingState(Character _character, StateMachine _stateMachine) : base(_character, _stateMachine)
+    public WaterLandingState(Character _character) : base(_character)
 	{
-		character = _character;
-		stateMachine = _stateMachine;
 	}
 
     public override void Enter()
@@ -26,7 +24,7 @@ public class WaterLandingState:State
 		if (timePassed> landingTime)
 		{
             character.animator.SetTrigger("move");
-            stateMachine.ChangeState(character.standing);
+            character.SetState(new StandingState(character));
         }
         timePassed += Time.deltaTime;
     }

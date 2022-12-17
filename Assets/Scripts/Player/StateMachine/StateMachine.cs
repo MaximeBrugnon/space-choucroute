@@ -1,18 +1,14 @@
-public class StateMachine
+using UnityEngine;
+public abstract class StateMachine : MonoBehaviour
 {
-    public State currentState;
+    protected State state;
  
-    public void Initialize(State startingState)
+    public void SetState(State newState)
     {
-        currentState = startingState;
-        startingState.Enter();
-    }
- 
-    public void ChangeState(State newState)
-    {
-        currentState.Exit();
- 
-        currentState = newState;
+        if (state != null) { 
+            state.Exit();
+	    }
+        state = newState; 
         newState.Enter();
     }
 }

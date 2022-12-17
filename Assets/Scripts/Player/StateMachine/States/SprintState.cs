@@ -9,10 +9,9 @@ public class SprintState : State
     float playerSpeed;
     bool sprintJump;
     Vector3 cVelocity;
-    public SprintState(Character _character, StateMachine _stateMachine) : base(_character, _stateMachine)
+
+    public SprintState(Character _character) : base(_character)
     {
-        character = _character;
-        stateMachine = _stateMachine;
     }
 
     public override void Enter()
@@ -63,11 +62,11 @@ public class SprintState : State
 		}
 		else
 		{
-            stateMachine.ChangeState(character.standing);
+            character.SetState(new StandingState(character));
         }
 		if (sprintJump)
 		{
-            stateMachine.ChangeState(character.sprintjumping);
+            character.SetState(new SprintJumpState(character));
         }
     }
 

@@ -10,10 +10,8 @@ public class SprintJumpState : State
 
     Vector3 airVelocity;
 
-    public SprintJumpState(Character _character, StateMachine _stateMachine) : base(_character, _stateMachine)
+    public SprintJumpState(Character _character) : base(_character)
     {
-        character = _character;
-        stateMachine = _stateMachine;
     }
 
     public override void Enter()
@@ -43,7 +41,7 @@ public class SprintJumpState : State
 
         if (grounded)
         {
-            stateMachine.ChangeState(character.landing);
+            character.SetState(new LandingState(character));
         }
     }
 
