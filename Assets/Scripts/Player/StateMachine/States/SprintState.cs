@@ -32,7 +32,7 @@ public class SprintState : State
 
     public override void HandleInput()
     {
-        base.Enter();
+        base.HandleInput();
         input = moveAction.ReadValue<Vector2>();
         velocity = new Vector3(input.x, 0, input.y);
 

@@ -5,7 +5,7 @@ public class SwimingState : State
 
     private Vector3 cVelocity;
 
-    private float swimSpeed = 0.5f;
+    private readonly float swimSpeed = 0.5f;
     private float waterEntryTime = 0f;
 
     public SwimingState(Character _character) : base(_character)
@@ -19,14 +19,15 @@ public class SwimingState : State
         input = Vector2.zero;
         velocity = Vector3.zero;
         currentVelocity = Vector3.zero;
-        gravityVelocity.y = 0;
+        gravityVelocity = Vector3.zero;
+
 
         character.animator.SetTrigger("swim");
     }
 
     public override void HandleInput()
     {
-        base.Enter();
+        base.HandleInput();
         input = moveAction.ReadValue<Vector2>();
         velocity = new Vector3(input.x, 0, input.y);
 
@@ -38,7 +39,7 @@ public class SwimingState : State
     public override void LogicUpdate()
     {
 	    waterEntryTime += Time.deltaTime;
-        if (waterEntryTime >= 15f)
+        if (waterEntryTime >= character.delayBeforeDrowing)
         {
             character.animator.SetTrigger("drown");
             //character.SetState(new DrowingState(character));
@@ -48,15 +49,18 @@ public class SwimingState : State
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        gravityVelocity.y = 0f;
 
         currentVelocity = Vector3.SmoothDamp(currentVelocity, velocity, ref cVelocity, character.velocityDampTime);
+        currentVelocity.y = 0f;
 
-        character.controller.Move(currentVelocity * Time.deltaTime * swimSpeed + gravityVelocity * Time.deltaTime);
-	
-	    if (velocity.sqrMagnitude > 0)
-        {
-            character.transform.rotation = Quaternion.Slerp(character.transform.rotation, Quaternion.LookRotation(velocity), character.rotationDampTime);
+
+        character.controller.Move(character.playerSpeed * swimSpeed * Time.deltaTime * currentVelocity);
+
+
+		if (velocity.sqrMagnitude>0)
+		{
+            // facing direction
+            character.transform.rotation = Quaternion.Slerp(character.transform.rotation, Quaternion.LookRotation(velocity),character.rotationDampTime);
         }
     }
 

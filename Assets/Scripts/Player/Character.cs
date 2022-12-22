@@ -8,6 +8,7 @@ public class Character : StateMachine
     public float jumpHeight = 0.8f; 
     public float gravityMultiplier = 2;
     public float rotationSpeed = 5f;
+    public float delayBeforeDrowing = 15f;
  
     [Header("Animation Smoothing")]
     [Range(0, 1)]
@@ -31,7 +32,6 @@ public class Character : StateMachine
     public Animator animator;
     [HideInInspector]
     public Vector3 playerVelocity;
-    [HideInInspector]
     public bool isInWater = false;
 
     // Start is called before the first frame update
@@ -57,4 +57,3 @@ public class Character : StateMachine
         state.PhysicsUpdate();
     }
 }
- 

@@ -6,12 +6,11 @@ public class SwimTrigger : MonoBehaviour
 
     private void Start()
     {
-        character = GetComponent<Character>();
+        character = GetComponentInParent<Character>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-	    Debug.Log(other);
         if (other.CompareTag("Water"))
         {
 	        character.SetState(new SwimingState(character));

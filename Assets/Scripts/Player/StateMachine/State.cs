@@ -27,7 +27,7 @@ public abstract class State
 
     public virtual void Enter()
     {
-       // Debug.Log("Enter State: " + this.ToString());
+       Debug.Log("Enter State: " + this.ToString());
     }
 
     public virtual void HandleInput()
@@ -44,5 +44,6 @@ public abstract class State
 
     public virtual void Exit()
     {
+       Debug.Log("Leaving State: " + this.ToString());
     }
 }

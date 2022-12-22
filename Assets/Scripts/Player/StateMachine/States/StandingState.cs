@@ -10,6 +10,8 @@ public class StandingState: State
     bool sprint;
     float playerSpeed;
 
+    private readonly float inWaterSpeed = 0.5f;
+
     Vector3 cVelocity;
 
     public StandingState(Character _character) : base(_character)
@@ -47,7 +49,7 @@ public class StandingState: State
 
         input = moveAction.ReadValue<Vector2>();
 
-        float speedLimiter = character.isInWater ? 0.5f : 1.0f; // slower in water
+        float speedLimiter = character.isInWater ? inWaterSpeed : 1.0f; // slower in water
         velocity = new Vector3(input.x, 0, input.y) * speedLimiter;
 
         velocity = velocity.x * character.cameraTransform.right.normalized + velocity.z * character.cameraTransform.forward.normalized;
@@ -59,7 +61,8 @@ public class StandingState: State
     {
         base.LogicUpdate();
 
-        character.animator.SetFloat("speed", input.magnitude, character.speedDampTime, Time.deltaTime);
+        float speedLimiter = character.isInWater ? inWaterSpeed : 1.0f; // slower in water
+        character.animator.SetFloat("speed", input.magnitude * speedLimiter, character.speedDampTime, Time.deltaTime);
 
         if (sprint)
 		{

@@ -6,7 +6,7 @@ public class LandingState : State
     float landingTime;
     bool isSprinting;
 
-    public LandingState(Character _charactere) : base(_charactere)
+    public LandingState(Character _character) : base(_character)
     {
     }
 
