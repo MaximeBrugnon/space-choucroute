@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class JumpingState:State
 {
-    bool grounded;
 
-    float gravityValue;
     float jumpHeight;
-    float playerSpeed;
 
-    Vector3 airVelocity;
+    // Local isGrounded for timing issue
+    private bool isGrounded;
+
+    Vector3 airbornMove;
 
     public JumpingState(Character _character) : base(_character)
 	{
@@ -18,11 +18,11 @@ public class JumpingState:State
 	{
 		base.Enter();
 
-		grounded = false;
         gravityValue = character.gravityValue;
         jumpHeight = character.jumpHeight;
         playerSpeed = character.playerSpeed;
-        gravityVelocity.y = 0;
+        playerVelocity.y = 0;
+        isGrounded = false;
 
         character.animator.SetFloat("speed", 0);
         character.animator.SetTrigger("jump");
@@ -33,13 +33,21 @@ public class JumpingState:State
 		base.HandleInput();
 
         input = moveAction.ReadValue<Vector2>();
+
+        move = character.playerVelocity;
+        move = move.x * character.cameraTransform.right.normalized + move.z * character.cameraTransform.forward.normalized;
+        move.y = 0f;
+
+        airbornMove = new Vector3(input.x, 0, input.y);
+        airbornMove = airbornMove.x * character.cameraTransform.right.normalized + airbornMove.z * character.cameraTransform.forward.normalized;
+        airbornMove.y = 0f;
     }
 
 	public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        if (grounded)
+        if (isGrounded)
 		{
             character.SetState(new LandingState(character));
         }
@@ -48,26 +56,20 @@ public class JumpingState:State
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-		if (!grounded)
+
+		if (!isGrounded)
 		{
-
-            velocity = character.playerVelocity;
-            airVelocity = new Vector3(input.x, 0, input.y);
-
-            velocity = velocity.x * character.cameraTransform.right.normalized + velocity.z * character.cameraTransform.forward.normalized;
-            velocity.y = 0f;
-            airVelocity = airVelocity.x * character.cameraTransform.right.normalized + airVelocity.z * character.cameraTransform.forward.normalized;
-            airVelocity.y = 0f;
-            character.controller.Move(gravityVelocity * Time.deltaTime+ (airVelocity*character.airControl+velocity*(1- character.airControl))*playerSpeed*Time.deltaTime);
+            character.controller.Move(playerVelocity * Time.deltaTime+ (airbornMove*character.airControl+move*(1- character.airControl))*playerSpeed*Time.deltaTime);
         }
 
-        gravityVelocity.y += gravityValue * Time.deltaTime;
-        grounded = character.controller.isGrounded;
+        playerVelocity.y += gravityValue * Time.deltaTime;
+        isGrounded = character.controller.isGrounded;
     }
 
     void Jump()
     {
-        gravityVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        // Science bitch, don't tweak that
+        playerVelocity.y += Mathf.Sqrt(-2f * gravityValue * jumpHeight);
     }
 
 }

@@ -1,22 +1,17 @@
 using UnityEngine;
 
-public class StandingState: State
+public class StandingState : State
 {
-    
-    float gravityValue;
-    bool jump;   
-    Vector3 currentVelocity;
-    bool grounded;
-    bool sprint;
-    float playerSpeed;
 
-    private readonly float inWaterSpeed = 0.5f;
+    private Vector3 currentVelocity;
+    private Vector3 cVelocity;
+    private bool jump;
+    private bool sprint;
 
-    Vector3 cVelocity;
 
     public StandingState(Character _character) : base(_character)
-	{
-	}
+    {
+    }
 
     public override void Enter()
     {
@@ -25,87 +20,88 @@ public class StandingState: State
         jump = false;
         sprint = false;
         input = Vector2.zero;
-        velocity = Vector3.zero;
+        move = Vector3.zero;
         currentVelocity = Vector3.zero;
-        gravityVelocity.y = 0;
-
-        playerSpeed = character.playerSpeed;
-        grounded = character.controller.isGrounded;
-        gravityValue = character.gravityValue;    
+        playerVelocity = Vector3.zero;
     }
 
     public override void HandleInput()
     {
-        base.HandleInput();
-
-        if (jumpAction.triggered && !character.isInWater)
-        {
-            jump = true;
-		}
-		if (sprintAction.triggered && !character.isInWater)
-		{
-            sprint = true;
-		}
-
         input = moveAction.ReadValue<Vector2>();
 
-        float speedLimiter = character.isInWater ? inWaterSpeed : 1.0f; // slower in water
-        velocity = new Vector3(input.x, 0, input.y) * speedLimiter;
+        move = new Vector3(input.x, 0, input.y);
+        move = move.x * character.cameraTransform.right.normalized + move.z * character.cameraTransform.forward.normalized;
+        move.y = 0f;
 
-        velocity = velocity.x * character.cameraTransform.right.normalized + velocity.z * character.cameraTransform.forward.normalized;
-        velocity.y = 0f;
-     
+        if (jumpAction.triggered && !character.IsInWater)
+        {
+            jump = true;
+        }
+
+        if (sprintAction.triggered && !character.IsInWater)
+        {
+            sprint = true;
+        }
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        float speedLimiter = character.isInWater ? inWaterSpeed : 1.0f; // slower in water
-        character.animator.SetFloat("speed", input.magnitude * speedLimiter, character.speedDampTime, Time.deltaTime);
+        float animationSpeed = input.magnitude;
+        if (character.IsInWater)
+        {
+            animationSpeed *= character.GetWaterDragTimedFactor();
+        }
+        character.animator.SetFloat("speed", animationSpeed, character.speedDampTime, Time.deltaTime);
 
         if (sprint)
-		{
+        {
             character.SetState(new SprintState(character));
-        }    
+        }
         if (jump)
         {
             character.SetState(new JumpingState(character));
+        }
+
+        if (character.IsSwiming)
+        {
+            character.SetState(new SwimingState(character));
         }
     }
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
+        playerVelocity.y += gravityValue * Time.deltaTime;
 
-        gravityVelocity.y += gravityValue * Time.deltaTime;
-        grounded = character.controller.isGrounded;
-
-        if (grounded && gravityVelocity.y < 0)
+        if (character.IsInWater) // Drag
         {
-            gravityVelocity.y = 0f;
+            move *= character.GetWaterDragTimedFactor();
         }
-       
-        currentVelocity = Vector3.SmoothDamp(currentVelocity, velocity,ref cVelocity, character.velocityDampTime);
-        character.controller.Move(playerSpeed * Time.deltaTime * currentVelocity + gravityVelocity * Time.deltaTime);
-  
-		if (velocity.sqrMagnitude>0)
-		{
-            character.transform.rotation = Quaternion.Slerp(character.transform.rotation, Quaternion.LookRotation(velocity),character.rotationDampTime);
+
+        if (character.controller.isGrounded && playerVelocity.y < 0)
+        {
+            playerVelocity.y = 0f;
         }
-        
+
+        currentVelocity = Vector3.SmoothDamp(currentVelocity, move, ref cVelocity, character.velocityDampTime);
+        character.controller.Move(currentVelocity * Time.deltaTime * playerSpeed + playerVelocity * Time.deltaTime);
+
+        if (move.sqrMagnitude > 0)
+        {
+            character.transform.rotation = Quaternion.Slerp(character.transform.rotation, Quaternion.LookRotation(move), character.rotationDampTime);
+        }
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        gravityVelocity.y = 0f;
         character.playerVelocity = new Vector3(input.x, 0, input.y);
 
-        if (velocity.sqrMagnitude > 0)
+        if (move.sqrMagnitude > 0)
         {
-            character.transform.rotation = Quaternion.LookRotation(velocity);
+            character.transform.rotation = Quaternion.LookRotation(move);
         }
     }
 

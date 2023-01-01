@@ -4,9 +4,7 @@ public class SprintJumpState : State
 {
     bool grounded;
 
-    float gravityValue;
     float jumpHeight;
-    float playerSpeed;
 
     Vector3 airVelocity;
 
@@ -22,7 +20,7 @@ public class SprintJumpState : State
         gravityValue = character.gravityValue;
         jumpHeight = character.jumpHeight;
         playerSpeed = character.playerSpeed;
-        gravityVelocity.y = 0;
+        playerVelocity.y = 0;
 
         character.animator.SetFloat("speed", 0);
         character.animator.SetTrigger("sprintJump");
@@ -51,23 +49,23 @@ public class SprintJumpState : State
         if (!grounded)
         {
 
-            velocity = character.playerVelocity;
+            move = character.playerVelocity;
             airVelocity = new Vector3(input.x, 0, input.y);
 
-            velocity = velocity.x * character.cameraTransform.right.normalized + velocity.z * character.cameraTransform.forward.normalized;
-            velocity.y = 0f;
+            move = move.x * character.cameraTransform.right.normalized + move.z * character.cameraTransform.forward.normalized;
+            move.y = 0f;
             airVelocity = airVelocity.x * character.cameraTransform.right.normalized + airVelocity.z * character.cameraTransform.forward.normalized;
             airVelocity.y = 0f;
-            character.controller.Move(gravityVelocity * Time.deltaTime + (airVelocity * character.airControl + velocity * (1 - character.airControl)) * playerSpeed * Time.deltaTime);
+            character.controller.Move(playerVelocity * Time.deltaTime + (airVelocity * character.airControl + move * (1 - character.airControl)) * playerSpeed * Time.deltaTime);
         }
 
-        gravityVelocity.y += gravityValue * Time.deltaTime;
+        playerVelocity.y += gravityValue * Time.deltaTime;
         grounded = character.controller.isGrounded;
     }
 
     void Jump()
     {
-        gravityVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
     }
 
 }

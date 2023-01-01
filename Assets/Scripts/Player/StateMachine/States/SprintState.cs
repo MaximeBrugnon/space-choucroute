@@ -1,12 +1,9 @@
 using UnityEngine;
 public class SprintState : State
 {
-    float gravityValue;
     Vector3 currentVelocity;
 
-    bool grounded;
     bool sprint;
-    float playerSpeed;
     bool sprintJump;
     Vector3 cVelocity;
 
@@ -21,24 +18,19 @@ public class SprintState : State
         sprint = false;
         sprintJump = false;
         input = Vector2.zero;
-        velocity = Vector3.zero;
+        move = Vector3.zero;
         currentVelocity = Vector3.zero;
-        gravityVelocity.y = 0;
-
-        playerSpeed = character.sprintSpeed;
-        grounded = character.controller.isGrounded;
-        gravityValue = character.gravityValue;        
     }
 
     public override void HandleInput()
     {
-        base.HandleInput();
         input = moveAction.ReadValue<Vector2>();
-        velocity = new Vector3(input.x, 0, input.y);
 
-        velocity = velocity.x * character.cameraTransform.right.normalized + velocity.z * character.cameraTransform.forward.normalized;
-        velocity.y = 0f;
-        if (sprintAction.triggered || input.sqrMagnitude == 0f || character.isInWater)
+        move = new Vector3(input.x, 0, input.y);
+        move = move.x * character.cameraTransform.right.normalized + move.z * character.cameraTransform.forward.normalized;
+        move.y = 0f;
+
+        if (input.sqrMagnitude == 0f || character.IsInWater)
         {
             sprint = false;
         }
@@ -46,12 +38,12 @@ public class SprintState : State
         {
             sprint = true;
         }
-		if (jumpAction.triggered)
-		{
+
+        if (jumpAction.triggered)
+        {
             sprintJump = true;
 
         }
-
     }
 
     public override void LogicUpdate()
@@ -59,34 +51,45 @@ public class SprintState : State
         if (sprint)
         {
             character.animator.SetFloat("speed", input.magnitude + 0.5f, character.speedDampTime, Time.deltaTime);
-		}
-		else
-		{
+        }
+        else
+        {
             character.SetState(new StandingState(character));
         }
-		if (sprintJump)
-		{
+        if (sprintJump)
+        {
             character.SetState(new SprintJumpState(character));
         }
     }
 
     public override void PhysicsUpdate()
     {
-        base.PhysicsUpdate();
-        gravityVelocity.y += gravityValue * Time.deltaTime;
-        grounded = character.controller.isGrounded;
-        if (grounded && gravityVelocity.y < 0)
+        playerVelocity.y += gravityValue * Time.deltaTime;
+
+        if (character.controller.isGrounded && playerVelocity.y < 0)
         {
-            gravityVelocity.y = 0f;
+            playerVelocity.y = 0f;
         }
-        currentVelocity = Vector3.SmoothDamp(currentVelocity, velocity, ref cVelocity, character.velocityDampTime);
 
-        character.controller.Move(currentVelocity * Time.deltaTime * playerSpeed + gravityVelocity * Time.deltaTime);
+        currentVelocity = Vector3.SmoothDamp(currentVelocity, move, ref cVelocity, character.velocityDampTime);
+        character.controller.Move(currentVelocity * Time.deltaTime * character.sprintSpeed + playerVelocity * Time.deltaTime);
 
-
-        if (velocity.sqrMagnitude > 0)
+        if (move.sqrMagnitude > 0)
         {
-            character.transform.rotation = Quaternion.Slerp(character.transform.rotation, Quaternion.LookRotation(velocity), character.rotationDampTime);
+            character.transform.rotation = Quaternion.Slerp(character.transform.rotation, Quaternion.LookRotation(move), character.rotationDampTime);
         }
     }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        character.playerVelocity = new Vector3(input.x, 0, input.y);
+
+        if (move.sqrMagnitude > 0)
+        {
+            character.transform.rotation = Quaternion.LookRotation(move);
+        }
+    }
+
 }
