@@ -49,6 +49,8 @@ public class SwimingState : State
             character.animator.SetTrigger("move");
             character.SetState(new StandingState(character));
         }
+
+        character.animator.SetFloat("speed", input.magnitude, character.speedDampTime, Time.deltaTime);
     }
 
     public override void PhysicsUpdate()
