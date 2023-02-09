@@ -7,6 +7,7 @@ public class StandingState : State
     private Vector3 cVelocity;
     private bool jump;
     private bool sprint;
+    private bool unbalanced;
 
 
     public StandingState(Character _character) : base(_character)
@@ -19,6 +20,7 @@ public class StandingState : State
 
         jump = false;
         sprint = false;
+        unbalanced = false;
         input = Vector2.zero;
         move = Vector3.zero;
         currentVelocity = Vector3.zero;
@@ -49,9 +51,15 @@ public class StandingState : State
         base.LogicUpdate();
 
         float animationSpeed = input.magnitude;
+
+
         if (character.IsInWater)
         {
             animationSpeed *= character.GetWaterDragTimedFactor();
+        }
+        else
+        {
+            EvaluateOffBalence();
         }
         character.animator.SetFloat("speed", animationSpeed, character.speedDampTime, Time.deltaTime);
 
@@ -68,6 +76,18 @@ public class StandingState : State
         {
             character.SetState(new SwimingState(character));
         }
+
+        if (unbalanced)
+        {
+            character.animator.SetTrigger("unbalanced");
+            character.animator.ResetTrigger("move");
+        }
+        else
+        {
+            character.animator.ResetTrigger("unbalanced");
+            character.animator.SetTrigger("move");
+        }
+
     }
 
     public override void PhysicsUpdate()
@@ -103,6 +123,24 @@ public class StandingState : State
         {
             character.transform.rotation = Quaternion.LookRotation(move);
         }
+
+        character.animator.ResetTrigger("unbalanced");
     }
 
+    private void EvaluateOffBalence()
+    {
+        Debug.Log(character.controller.isGrounded);
+        // Detecting a bottomless gap in front of the character 
+        if (Physics.Raycast(
+           (character.transform.position + character.controller.center) + Vector3.up / 2,
+           (3 * Vector3.down + character.transform.forward.normalized), 3.0f
+        ))
+        {
+            unbalanced = false;
+        }
+        else // If no target hit: we are in front of a cliff 
+        {
+            unbalanced = true;
+        }
+    }
 }
