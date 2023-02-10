@@ -107,13 +107,13 @@ Material:
     m_Floats:
     - _Alpha: 0.426
     - _AlphaClip: 0
-    - _AlphaDetph: 1
-    - _Animation_speed: 23
+    - _AlphaDetph: 0
+    - _Animation_speed: 8.99
     - _Blend: 1
     - _BumpScale: 20
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorChange: 14.8
+    - _ColorChange: 30.5
     - _Cull: 2
     - _Cutoff: 0.5
     - _Depth_Strength: 0.2
@@ -122,14 +122,14 @@ Material:
     - _Distance: 22.8
     - _DstBlend: 10
     - _EnvironmentReflections: 1
-    - _FoamAmount: 6
-    - _FoamCutOff: 8
-    - _FoamScale: 3069
+    - _FoamAmount: 1.28
+    - _FoamCutOff: 8.69
+    - _FoamScale: 7182
     - _FoamSpeed: 0.2
     - _GlossMapScale: 1
     - _Glossiness: 0.48
     - _GlossyReflections: 1
-    - _Metallic: 0.88
+    - _Metallic: 0.436
     - _Mode: 3
     - _Normal_Scale: 1
     - _Normal_Scale_1: 3
@@ -139,27 +139,27 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Refraction_strenght: 0.156
-    - _Smoothness: 1
+    - _Refraction_strenght: 0
+    - _Smoothness: 0.128
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 1
     - _UVSec: 0
-    - _Water_NM_Scale: 100
-    - _Water_NM_strength: 0.063
+    - _Water_NM_Scale: 688
+    - _Water_NM_strength: 0.106
     - _Water_Opacity: 0
-    - _Water_edge_opacity: 0.513
+    - _Water_edge_opacity: 0.391
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 0.5425419, g: 0.82574505, b: 0.9056604, a: 0.5372549}
     - _Color: {r: 0.3058823, g: 0.6876607, b: 0.8666667, a: 1}
-    - _DeepColor: {r: 0, g: 0.29803896, b: 0.4811321, a: 0.62352943}
+    - _DeepColor: {r: 0, g: 0.5283019, b: 0.37839067, a: 0.7411765}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SurfaceColor: {r: 0, g: 1, b: 1, a: 0.48235294}
+    - _SurfaceColor: {r: 0.5438323, g: 0.95283014, b: 0.8277734, a: 0.31764707}
   m_BuildTextureStacks: []
 --- !u!114 &5943353357341607282
 MonoBehaviour:
